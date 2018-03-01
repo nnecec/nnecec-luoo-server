@@ -1,0 +1,37 @@
+{
+  // "compileOnSave": true,
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "types": [
+      "koa",
+      "reflect-metadata"
+    ],
+    "typeRoots": [
+      "node_modules/@types/"
+    ],
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "isolatedModules": false,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "lib": [
+      "es6",
+      "dom",
+      "esnext.asynciterable",
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    ".vscode",
+    "node_modules",
+    "dist"
+  ]
+}

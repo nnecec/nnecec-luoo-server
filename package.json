@@ -1,0 +1,48 @@
+{
+  "name": "nnecec-luoo-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "npm run build.ts",
+    "build.doc": "graphdoc -e http://localhost:4001/graphql -o ./doc/schema",
+    "build.ts": "tsc",
+    "clean": "rm -rf dist && mkdir dist",
+    "start": "npm run watch",
+    "serve": "nodemon dist/app.js",
+    "serve.debug": "nodemon --inspect dist/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "concurrently -k -p \"[{name}]\" \"npm run watch.ts\" \"npm run serve\"",
+    "watch.debug": "concurrently -k -p \"[{name}]\" \"npm run watch.ts\" \"npm run serve.debug\"",
+    "watch.ts": "tsc -w"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/koa-bodyparser": "^4.2.0",
+    "@types/koa-router": "^7.0.27",
+    "bluebird": "^3.5.1",
+    "cheerio": "^1.0.0-rc.2",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-cors": "0.0.16",
+    "koa-logger": "^3.1.0",
+    "koa-multer": "^1.0.2",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.0.7",
+    "reflect-metadata": "^0.1.12",
+    "request": "^2.83.0",
+    "routing-controllers": "^0.7.6"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.7",
+    "@types/koa": "^2.0.44",
+    "@types/koa-logger": "^3.1.0",
+    "@types/mongoose": "^5.0.3",
+    "@types/request": "^2.47.0",
+    "koa-compose": "^4.0.0",
+    "ts-node": "^5.0.0",
+    "typescript": "^2.7.2"
+  }
+}
