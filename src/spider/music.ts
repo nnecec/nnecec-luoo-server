@@ -48,11 +48,15 @@ export async function loadVolList(volIndex: string | number) {
 
   const items = volList.map((index: number, vol: CheerioElement) => {
     return {
+      vol_id: volNumber,
       song: $(vol).children('.track-wrapper').children('.trackname').text(),
       artist: $(vol).children('.track-wrapper').children('.track-wrapper .artist').text(),
-      songLink: `http://mp3-cdn2.luoo.net/low/luoo/radio${volNumber}/${tool.fixNumber(index)}.mp3`
+      songLink: `http://mp3-cdn2.luoo.net/low/luoo/radio${volNumber}/${tool.fixNumber(index + 1)}.mp3`
     }
   }).get()
+
+
+  const volInfo = $('.vol-desc').text()
 
   return items
 }
