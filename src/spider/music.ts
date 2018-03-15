@@ -21,8 +21,11 @@ export async function loadTagList(tag = '', page = 1) {
   const $ = cheerio.load(res)
   const musicList = $('.vol-list .item')
   const items = musicList.map((index: number, music: CheerioElement) => {
+    const link = $(music).children('a').attr('href')
+    const id = link.split('/')[link.split('/').length - 1]
     return {
-      link: $(music).children('a').attr('href'),
+      id,
+      link,
       img: $(music).children('.cover-wrapper').children('img').attr('src'),
       title: $(music).children('.meta').children('.name').text(),
       comments: $(music).children('.meta').children('.comments').text().match(/\d+/)[0],
@@ -48,15 +51,36 @@ export async function loadVolList(volIndex: string | number) {
 
   const items = volList.map((index: number, vol: CheerioElement) => {
     return {
-      vol_id: volNumber,
+      music_id: `${volNumber}-${index + 1}`,
       song: $(vol).children('.track-wrapper').children('.trackname').text(),
       artist: $(vol).children('.track-wrapper').children('.track-wrapper .artist').text(),
-      songLink: `http://mp3-cdn2.luoo.net/low/luoo/radio${volNumber}/${tool.fixNumber(index + 1)}.mp3`
+      src: `http://mp3-cdn2.luoo.net/low/luoo/radio${volNumber}/${tool.fixNumber(index + 1)}.mp3`
     }
   }).get()
 
+  return items
+}
 
-  const volInfo = $('.vol-desc').text()
+/**
+ * 爬取期刊描述
+ * 
+ * @export
+ * @param {(string | number)} volIndex 
+ * @returns 
+ */
+export async function loadVolDesc(volIndex: string | number) {
+  const res = await fetchPage(`${API.vol}${volIndex}`)
+  const $: CheerioStatic = cheerio.load(res, {
+    decodeEntities: false
+  })
+  const volList = $('.vol-tracklist .track-item')
+  const volNumber = $('.vol-name .vol-number').text()
+
+  const items = {
+    vol_id: volNumber,
+    volInfo: $('.vol-desc').html(),
+    musicCount: volList.length
+  }
 
   return items
 }
