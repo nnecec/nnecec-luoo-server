@@ -27,22 +27,22 @@
     "koa-bodyparser": "^4.2.0",
     "koa-convert": "^1.2.0",
     "koa-cors": "0.0.16",
-    "koa-logger": "^3.1.0",
+    "koa-logger": "^3.2.0",
     "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
-    "mongoose": "^5.0.7",
+    "mongoose": "^5.0.10",
     "reflect-metadata": "^0.1.12",
-    "request": "^2.83.0",
-    "routing-controllers": "^0.7.6"
+    "request": "^2.85.0",
+    "routing-controllers": "^0.7.7"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.7",
     "@types/koa": "^2.0.44",
     "@types/koa-logger": "^3.1.0",
-    "@types/mongoose": "^5.0.3",
+    "@types/mongoose": "^5.0.7",
     "@types/request": "^2.47.0",
     "koa-compose": "^4.0.0",
-    "ts-node": "^5.0.0",
+    "ts-node": "^5.0.1",
     "typescript": "^2.7.2"
   }
 }

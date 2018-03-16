@@ -14,7 +14,7 @@ const API = {
  * @param {number} [page=1] 分页
  * @returns 
  */
-export async function loadTagList(tag = '', page = 1) {
+export async function loadTagList(tag?= '', page?= 1) {
   const res = await fetchPage(API.music)
   const $ = cheerio.load(res)
   const tagList = $('.pagenav-wrapper a')
