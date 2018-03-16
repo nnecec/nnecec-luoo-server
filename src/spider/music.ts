@@ -4,8 +4,7 @@ import * as tool from '../utils/tool'
 
 const API = {
   music: 'http://www.luoo.net/tag/',
-  vol: 'http://www.luoo.net/vol/index/',
-  volSong: 'http://mp3-cdn2.luoo.net/low/luoo/radio729/01.mp3'
+  vol: 'http://www.luoo.net/vol/index/'
 }
 
 /**
@@ -16,18 +15,18 @@ const API = {
  * @param {number} [page=1] 分页
  * @returns 
  */
-export async function loadTagList(tag = '', page = 1) {
+export async function loadVolList(tag = '', page = 1) {
   const res = await fetchPage(`${API.music}${tag}?p=${page}`)
   const $ = cheerio.load(res)
   const musicList = $('.vol-list .item')
   const items = musicList.map((index: number, music: CheerioElement) => {
-    const link = $(music).children('a').attr('href')
-    const id = link.split('/')[link.split('/').length - 1]
+    const title = $(music).children('.meta').children('.name').text()
+    const id = title.match(/\d+/g)[0]
     return {
       id,
-      link,
+      link: $(music).children('a').attr('href'),
       img: $(music).children('.cover-wrapper').children('img').attr('src'),
-      title: $(music).children('.meta').children('.name').text(),
+      title,
       comments: $(music).children('.meta').children('.comments').text().match(/\d+/)[0],
       favs: $(music).children('.meta').children('.favs').text().match(/\d+/)[0],
     }
@@ -43,7 +42,7 @@ export async function loadTagList(tag = '', page = 1) {
  * @param {(string | number)} volIndex 期刊index
  * @returns 
  */
-export async function loadVolList(volIndex: string | number) {
+export async function loadMusicList(volIndex: string | number) {
   const res = await fetchPage(`${API.vol}${volIndex}`)
   const $: CheerioStatic = cheerio.load(res)
   const volList = $('.vol-tracklist .track-item')
@@ -51,7 +50,7 @@ export async function loadVolList(volIndex: string | number) {
 
   const items = volList.map((index: number, vol: CheerioElement) => {
     return {
-      music_id: `${volNumber}-${index + 1}`,
+      id: `${volNumber}-${index + 1}`,
       song: $(vol).children('.track-wrapper').children('.trackname').text(),
       artist: $(vol).children('.track-wrapper').children('.track-wrapper .artist').text(),
       src: `http://mp3-cdn2.luoo.net/low/luoo/radio${volNumber}/${tool.fixNumber(index + 1)}.mp3`
@@ -75,10 +74,15 @@ export async function loadVolDesc(volIndex: string | number) {
   })
   const volList = $('.vol-tracklist .track-item')
   const volNumber = $('.vol-name .vol-number').text()
+  const tagList = $('.vol-tags .vol-tag-item')
+  const tag = tagList.map((index: number, tag: CheerioElement) => {
+    return $(tag).text()
+  }).get()
 
   const items = {
-    vol_id: volNumber,
-    volInfo: $('.vol-desc').html(),
+    id: volNumber,
+    description: $('.vol-desc').html(),
+    tag,
     musicCount: volList.length
   }
 

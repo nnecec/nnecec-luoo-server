@@ -12,7 +12,10 @@ const VolSchema: mongoose.Schema = new Schema({
   img: String,
   link: String,
   comments: Number,
-  favs: Number
+  favs: Number,
+  description: String,
+  tag: Array,
+  musicCount: Number
 })
 
 VolSchema.methods = {
