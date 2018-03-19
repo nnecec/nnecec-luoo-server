@@ -3,7 +3,7 @@ import { Controller, Param, Body, Get, Post, Put, Delete } from 'routing-control
 import TagModel from '../db/model/tag'
 
 
-@Controller('/tag')
+@Controller('/api/tag')
 export default class TagController {
 
   /**
@@ -14,7 +14,7 @@ export default class TagController {
    */
   @Get('/list')
   async tagList() {
-    const tagList = await TagModel.find({})
+    const tagList = await TagModel.find().lean()
     return tagList
   }
 }
