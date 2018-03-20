@@ -81,7 +81,7 @@ export async function loadVolDesc(volIndex: string | number) {
 
   const items = {
     id: volNumber,
-    description: $('.vol-desc').html(),
+    description: $('.vol-desc').text(),
     tag,
     musicCount: volList.length
   }
