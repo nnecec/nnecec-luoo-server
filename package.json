@@ -9,7 +9,7 @@
     "build.ts": "tsc",
     "clean": "rm -rf dist && mkdir dist",
     "start": "npm run watch",
-    "serve": "nodemon dist/app.js",
+    "serve": "nodemon --inspect dist/app.js",
     "serve.debug": "nodemon --inspect dist/app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "concurrently -k -p \"[{name}]\" \"npm run watch.ts\" \"npm run serve\"",
@@ -30,6 +30,7 @@
     "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
     "mongoose": "^5.0.10",
+    "node-vibrant": "^3.0.0",
     "reflect-metadata": "^0.1.12",
     "request": "^2.85.0",
     "routing-controllers": "^0.7.7"

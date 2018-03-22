@@ -15,7 +15,9 @@ const VolSchema: mongoose.Schema = new Schema({
   favs: Number,
   description: String,
   tag: Array,
-  musicCount: Number
+  musicCount: Number,
+  index: String, // 期刊链接id
+  swatches: Object
 })
 
 VolSchema.methods = {
