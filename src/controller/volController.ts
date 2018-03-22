@@ -1,7 +1,8 @@
 import { Controller, Param, Body, Get, Post, Put, Delete, QueryParam } from 'routing-controllers'
 import * as Vibrant from 'node-vibrant'
 
-import volModel from '../db/model/vol'
+import VolModel from '../db/model/vol'
+import MusicModel from '../db/model/music'
 
 
 @Controller('/api/vol')
@@ -17,7 +18,7 @@ export default class VolController {
    */
   @Get('/list')
   async volList(@QueryParam('tag') tag: string, @QueryParam('page') page: number) {
-    const volList = await volModel.find().lean()
+    const volList = await VolModel.find().lean()
     return volList
   }
 
@@ -30,7 +31,7 @@ export default class VolController {
    */
   @Get('/detail')
   async volDetail(@QueryParam('index') index: string) {
-    let volDetail = await volModel.findOne({ index }).lean()
+    let volDetail = await VolModel.findOne({ index }).lean()
     console.log(volDetail)
     // 如果没有色板
     if (!volDetail.swatches) {
@@ -48,10 +49,15 @@ export default class VolController {
         volDetail.swatches = swatches
 
         // 存入色板属性
-        volModel.findByIdAndUpdate(volDetail._id, { swatches })
+        VolModel.findByIdAndUpdate(volDetail._id, { swatches })
       }
     }
 
+
+
+    const musicList = await MusicModel.find({ id: eval('/' + volDetail.id + '/') }).lean()
+
+    volDetail.musicList = musicList || []
     return volDetail
   }
 }
