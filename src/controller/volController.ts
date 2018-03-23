@@ -3,6 +3,7 @@ import * as Vibrant from 'node-vibrant'
 
 import VolModel from '../db/model/vol'
 import MusicModel from '../db/model/music'
+import SyncController from './syncController'
 
 
 @Controller('/api/vol')
@@ -54,10 +55,20 @@ export default class VolController {
     }
 
 
-
+    // 从数据库期刊查询期刊包括的音乐列表
     const musicList = await MusicModel.find({ id: eval('/' + volDetail.id + '/') }).lean()
-
     volDetail.musicList = musicList || []
+
+
+    let newDetail = {}
+    // 如果没有描述 或者 没有音乐列表 则爬取
+    if (!volDetail.description || !musicList) {
+      newDetail = await new SyncController().loadVolDetail(index)
+      volDetail.description = newDetail.vol.description
+      volDetail.musicCount = newDetail.vol.musicCount
+      volDetail.musicList = newDetail.musicList
+    }
+
     return volDetail
   }
 }

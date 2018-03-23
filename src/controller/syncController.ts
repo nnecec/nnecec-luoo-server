@@ -34,7 +34,7 @@ export default class SyncController {
    * @memberof SyncController
    */
   @Get('/vol/:index')
-  async loadVolDetail(@Param('index') index: number) {
+  async loadVolDetail(@Param('index') index: number | string) {
     const vol = await musicSpider.loadVolDesc(index)
     const musicList = await musicSpider.loadMusicList(index)
 
@@ -48,7 +48,7 @@ export default class SyncController {
       })
     })
 
-    return true
+    return { vol, musicList }
   }
 
   /**
