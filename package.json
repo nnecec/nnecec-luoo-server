@@ -29,7 +29,7 @@
     "koa-logger": "^3.2.0",
     "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
-    "mongoose": "^5.0.10",
+    "mongoose": "^5.0.12",
     "node-vibrant": "^3.0.0",
     "reflect-metadata": "^0.1.12",
     "request": "^2.85.0",
@@ -47,6 +47,6 @@
     "@types/request": "^2.47.0",
     "koa-compose": "^4.0.0",
     "ts-node": "^5.0.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.8.1"
   }
 }
