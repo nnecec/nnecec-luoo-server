@@ -6,7 +6,7 @@ import VolModel from '../db/model/vol'
 import TagModel from '../db/model/tag'
 import MusicModel from '../db/model/music'
 
-@Controller('/sync')
+@Controller('/api/sync')
 export default class SyncController {
 
   /**
@@ -15,7 +15,7 @@ export default class SyncController {
    * @returns 
    * @memberof SyncController
    */
-  @Get('/vol')
+  @Post('/vol')
   async loadvolList() {
     const volList = await musicSpider.loadVolList()
     volList.forEach(vol => {
@@ -33,7 +33,7 @@ export default class SyncController {
    * @returns 
    * @memberof SyncController
    */
-  @Get('/vol/:index')
+  @Post('/vol/:index')
   async loadVolDetail(@Param('index') index: number | string) {
     const vol = await musicSpider.loadVolDesc(index)
     const musicList = await musicSpider.loadMusicList(index)
@@ -57,7 +57,7 @@ export default class SyncController {
    * @returns 
    * @memberof SyncController
    */
-  @Get('/tag')
+  @Post('/tag')
   async loadTagList() {
     const tagList = await tagSpider.loadTagList()
     tagList.forEach(tag => {

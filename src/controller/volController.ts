@@ -18,8 +18,15 @@ export default class VolController {
    * @memberof VolController
    */
   @Get('/list')
-  async volList(@QueryParam('tag') tag: string, @QueryParam('page') page: number) {
-    const volList = await VolModel.find().lean()
+  async volList(@QueryParam('tag') tag: string, @QueryParam('page') page: number = 1) {
+    const volList = await VolModel.find().sort({ id: -1 }).skip((page - 1) * 10).limit(10).lean()
+
+
+    if (volList.length < 10) { // 如果查询的不足一页10个 则再去爬
+
+    }
+    console.log(volList.length);
+
     return volList
   }
 
@@ -33,7 +40,6 @@ export default class VolController {
   @Get('/detail')
   async volDetail(@QueryParam('index') index: string) {
     let volDetail = await VolModel.findOne({ index }).lean()
-    console.log(volDetail)
     // 如果没有色板
     if (!volDetail.swatches) {
       const palette = await Vibrant.from(volDetail.img).getPalette()
@@ -50,7 +56,15 @@ export default class VolController {
         volDetail.swatches = swatches
 
         // 存入色板属性
-        VolModel.findByIdAndUpdate(volDetail._id, { swatches })
+
+        const result = await VolModel.findByIdAndUpdate(
+          volDetail._id,
+          { "$set": { swatches } },
+          {},
+          (err, rawResponse) => {
+            console.log(err, rawResponse)
+          })
+
       }
     }
 
@@ -72,4 +86,3 @@ export default class VolController {
     return volDetail
   }
 }
-
