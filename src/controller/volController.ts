@@ -5,6 +5,7 @@ import VolModel from '../db/model/vol'
 import MusicModel from '../db/model/music'
 import SyncController from './syncController'
 
+const _syncController = new SyncController()
 
 @Controller('/api/vol')
 export default class VolController {
@@ -19,13 +20,12 @@ export default class VolController {
    */
   @Get('/list')
   async volList(@QueryParam('tag') tag: string, @QueryParam('page') page: number = 1) {
-    const volList = await VolModel.find().sort({ id: -1 }).skip((page - 1) * 10).limit(10).lean()
+    let volList = await VolModel.find().sort({ id: -1 }).skip((page - 1) * 10).limit(10).lean()
 
-
+    console.log(page)
     if (volList.length < 10) { // 如果查询的不足一页10个 则再去爬
-
+      volList = _syncController.loadVolList(page, tag)
     }
-    console.log(volList.length);
 
     return volList
   }
@@ -77,7 +77,7 @@ export default class VolController {
     let newDetail = {}
     // 如果没有描述 或者 没有音乐列表 则爬取
     if (!volDetail.description || !musicList) {
-      newDetail = await new SyncController().loadVolDetail(index)
+      newDetail = await _syncController.loadVolDetail(index)
       volDetail.description = newDetail.vol.description
       volDetail.musicCount = newDetail.vol.musicCount
       volDetail.musicList = newDetail.musicList

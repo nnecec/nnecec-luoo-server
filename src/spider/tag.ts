@@ -31,3 +31,20 @@ export async function loadTagList(tag?= '', page?= 1) {
 
   return items
 }
+
+
+/**
+ * 获取期刊页数
+ * 
+ * @export
+ * @returns 
+ */
+export async function loadPagesCount() {
+  const res = await fetchPage(API.music)
+  const $ = cheerio.load(res)
+  const page = $('.break+.page').text()
+
+  return page
+}
+
+
