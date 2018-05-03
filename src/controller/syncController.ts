@@ -17,7 +17,7 @@ export default class SyncController {
    */
   @Post('/vol')
   async loadVolList(page?, tag?) {
-    const volList = await musicSpider.loadVolList()
+    const volList = await musicSpider.loadVolList(page, tag)
     volList.forEach(vol => {
       VolModel.update({ id: vol.id }, vol, { upsert: true }, (err, rawResponse) => {
         console.log(err, rawResponse)

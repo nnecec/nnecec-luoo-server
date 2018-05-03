@@ -20,7 +20,7 @@ export default class VolController {
    */
   @Get('/list')
   async volList(@QueryParam('tag') tag: string, @QueryParam('page') page: number = 1) {
-    let volList = await VolModel.find().sort({ id: -1 }).skip((page - 1) * 10).limit(10).lean()
+    let volList = await VolModel.find({ tag }).sort({ id: -1 }).skip((page - 1) * 10).limit(10).lean()
 
     console.log(page)
     if (volList.length < 10) { // 如果查询的不足一页10个 则再去爬
