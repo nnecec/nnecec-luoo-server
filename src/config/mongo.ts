@@ -10,6 +10,7 @@ export default {
     }
   },
   mongoOptions: {
-    promiseLibrary: require('bluebird')
+    promiseLibrary: require('bluebird'),
+    useNewUrlParser: true
   }
 }
